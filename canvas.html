@@ -8,8 +8,18 @@
 			color: white;
 			background-color: #6e9ba3;
 		}
-		#tutorial {
+		canvas {
+			margin: 10px;
 			border: 2px solid white;
+		}
+		.region-canvas {
+			padding: 20px;
+			margin: 20px;
+		}
+		.region-canvas div {
+			border: 2px solid black;
+			padding: 10px; 
+			margin: 10px;
 		}
 	</style>
 </head>
@@ -17,51 +27,86 @@
 <body>
 	<h1>Canvas</h1>
 
-	<button onclick="cambiarCanvas('tutorial','+')">Canvas H+</button>
-	<button onclick="cambiarCanvas('tutorial','-')">Canvas H-</button>
-	<button onclick="cambiarCanvas('tutorial','+', 'v')">Canvas V+</button>
-	<button onclick="cambiarCanvas('tutorial','-', 'v')">Canvas V-</button>
+	<a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes" target="_bank">Canvas_API Documentation</a>
 	
-	<br>
-	<button onclick="draw()">Draw</button>
-	<br>
-	<br>
+	<div class="region-canvas">
+		<div class="canvas1">
+			<button onclick="cambiarCanvas('canvas1','+')">Canvas H+</button>
+			<button onclick="cambiarCanvas('canvas1','-')">Canvas H-</button>
+			<button onclick="cambiarCanvas('canvas1','+', 'v')">Canvas V+</button>
+			<button onclick="cambiarCanvas('canvas1','-', 'v')">Canvas V-</button>
+			
+			<button onclick="draw()">Draw</button>
+			
+			<canvas id="canvas1" width="100" height="100"></canvas>
+		</div>
 
-	<canvas id="tutorial" width="100" height="100">
-		
-	</canvas>
-
+		<div class="canvas2">
+			<button onclick="cambiarCanvas('canvas2','+')">Canvas H+</button>
+			<button onclick="cambiarCanvas('canvas2','-')">Canvas H-</button>
+			<button onclick="cambiarCanvas('canvas2','+', 'v')">Canvas V+</button>
+			<button onclick="cambiarCanvas('canvas2','-', 'v')">Canvas V-</button>
+			<button onclick="drawPath()">drawPath</button>
+			<br>
+			<canvas id="canvas2" width="100" height="100"></canvas>
+		</div>
+	</div>
 
 <script>
 	(function(){
+		init();
 		draw();
+		drawPath();
 	})();
 
- function draw() {
-	var canvas = document.getElementById('tutorial');
-
-	if (canvas.getContext) {
-	  console.log('canvas supported');
-
-	  var ctx = canvas.getContext('2d');
-      ctx.fillStyle = 'rgb(200, 0, 0)';
-      ctx.fillRect(0, 0, 50, 50);
-      
-      ctx.fillStyle = 'rgba(0, 0, 200, 0.7)';
-      ctx.fillRect(50, 50, 50, 50);
-      
-      ctx.fillStyle = 'rgba(10, 10, 100, 0.7)';
-      ctx.strokeRect(25, 25, 50, 50);
-
-      ctx.fillStyle = 'rgba(10, 10, 100, 0.7)';
-			ctx.clearRect(25, 25, 50, 50);
-
-      console.log('canvas', canvas);
-      console.log('canvas context 2d', ctx);
-	} else {
-	  alert('canvas-unsupported code here')
+	function init() {
+		var canvas = document.getElementById('canvas1');
+		if (canvas.getContext) {
+		  console.log('canvas supported');
+		} else {
+		  alert('canvas-unsupported GET OUT of here !!');
+		}
 	}
-}
+
+	function draw() {
+		var canvas = document.getElementById('canvas1');
+	  var ctx = canvas.getContext('2d');
+
+	  ctx.fillStyle = 'rgb(200, 0, 0)';
+	  ctx.fillRect(0, 0, 50, 50);
+	  
+	  ctx.fillStyle = 'rgba(0, 0, 200, 0.7)';
+	  ctx.fillRect(50, 50, 50, 50);
+	  
+	  ctx.fillStyle = 'rgba(10, 10, 100, 0.7)';
+	  ctx.strokeRect(25, 25, 50, 50);
+
+	  ctx.fillStyle = 'rgba(10, 10, 100, 0.7)';
+		ctx.clearRect(25, 25, 50, 50);
+
+	  console.log('canvas', canvas);
+	  console.log('canvas context 2d', ctx);
+	}
+
+	function drawPath() {
+		var canvas = document.getElementById('canvas2');
+	  var ctx = canvas.getContext('2d');
+
+	 	// ctx.beginPath();
+   //  ctx.moveTo(75, 50);
+   //  ctx.lineTo(100, 75);
+   //  ctx.lineTo(100, 25);
+   //  ctx.fill();
+	 	ctx.beginPath();
+    ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle
+    ctx.moveTo(110, 75);
+    ctx.arc(75, 75, 35, 0, Math.PI, false);  // Mouth (clockwise)
+    ctx.moveTo(65, 65);
+    ctx.arc(60, 65, 5, 0, Math.PI * 2, true);  // Left eye
+    ctx.moveTo(95, 65);
+    ctx.arc(90, 65, 5, 0, Math.PI * 2, true);  // Right eye
+    ctx.stroke();
+	}
 
 	function cambiarCanvas(nameCanvas,changer,rotation) {
 		var element = document.querySelector('#'+nameCanvas);
